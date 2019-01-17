@@ -61,10 +61,10 @@ class Search extends Component {
     handleBookSave = data => {
         // Only save the book if it is not in our database
         if (!this.state.saved.includes(data.bookId)){
-        API.saveBook(data)
-            .then(res => alert("Saved:" + data.title))
-            .catch(err => console.log(err));
-        }
+            API.saveBook(data)
+                .then(res => this.getSavedBooks)
+                .catch(err => console.log(err));
+            }
     };
 
     render() {
