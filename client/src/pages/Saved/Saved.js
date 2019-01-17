@@ -1,13 +1,31 @@
 import React, { Component } from "react";
-import { Container } from "semantic-ui-react";
+import { Button, Container, Grid, Icon, Image, Card } from "semantic-ui-react";
 import API from "../../utils/API";
-import NAV from "../../components/Nav";
-import Nav from "../../components/Nav/Nav";
+import Nav from "../../components/Nav";
 
 class Saved extends Component {
     state = {
         books: [],
-        query: ""
+    };
+
+    componentDidMount() {
+        this.loadBooks();
+    }
+
+    // Loads all saved books and sets them to this.state.books
+    loadBooks = () => {
+        API.getBooks()
+            .then(res => {
+                this.setState({ books: res.data });
+            })
+            .catch(err => console.log(err));
+    };
+
+    // Deletes a saved book from the database
+    handleBookDelete = (id) => {
+        API.deleteBook(id)
+            .then(res => this.loadBooks())
+            .catch(err => console.log(err));
     };
 
     render() {
@@ -15,15 +33,30 @@ class Saved extends Component {
             <div>
                 <Container>
                     <Nav/>
-                    <h1>THIS IS SAVED*****</h1>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
-                        Aenean massa strong. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur
-                        ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla
-                        consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.
-                        In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede
-                        link mollis pretium. Integer tincidunt.
-                    </p>
+                    <h1>Here are your favorite books...</h1>
+                    <Grid style={{marginTop: "20px"}}>
+                        {this.state.books.map(book => (
+                            <Grid.Column computer={4} mobile={16} tablet={8} key={book.bookId}>
+                                <Card className="centered" style={{height: 450}}>
+                                    <Image size='small' src={book.img} style={{height: 232}} />
+                                    <Card.Content>
+                                        <Card.Header>{book.title}</Card.Header>
+                                        <Card.Meta>Authors: {book.authors}</Card.Meta>
+                                        <Card.Description>{book.subtitle}</Card.Description>
+                                    </Card.Content>
+                                    <Card.Content extra>
+                                        <a href={book.link} target="_blank" rel="noopener noreferrer">
+                                            <Icon name='linkify' />
+                                            Click to view
+                                        </a>
+                                        <Button basic color='red' floated='right' onClick={() => this.handleBookDelete(book._id)}>
+                                            Delete
+                                        </Button>
+                                    </Card.Content>
+                                </Card>
+                            </Grid.Column>
+                        ))}
+                    </Grid>
                 </Container>
             </div>
         )
