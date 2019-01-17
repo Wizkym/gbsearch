@@ -13,6 +13,10 @@
     "build": "cd client && npm run build",
     "heroku-postbuild": "npm run build"
   },
+  "engines": {
+    "node": "11.6.0",
+    "npm":"6.5.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Wizkym/gbsearch.git"
