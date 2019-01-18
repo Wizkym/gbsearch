@@ -15,10 +15,10 @@ export default {
     },
     // Searches for a book from the Google Books API using the typed query
     searchGoogleBooks: function(query) {
-        return axios.get("https://www.googleapis.com/books/v1/volumes?q=" + query);
+        return axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=12`);
     },
     // Loads default books from the API on load
     getDefaultBooks: function () {
-        return axios.get("https://www.googleapis.com/books/v1/volumes?q=Harry+Potter");
+        return axios.get(`https://www.googleapis.com/books/v1/volumes?q=Do+Hard+Things&maxResults=12`);
     }
 };
