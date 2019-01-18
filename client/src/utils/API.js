@@ -19,6 +19,6 @@ export default {
     },
     // Loads default books from the API on load
     getDefaultBooks: function () {
-        return axios.get("https://www.googleapis.com/books/v1/volumes?q=baby+shark");
+        return axios.get("https://www.googleapis.com/books/v1/volumes?q=Harry+Potter");
     }
 };

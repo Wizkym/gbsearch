@@ -20,6 +20,7 @@ class Search extends Component {
     loadDefaultBooks = () => {
         API.getDefaultBooks()
             .then(res => {
+                console.log(res.data.items);
                 this.setState({ results: res.data.items });
             })
             .catch(err => console.log(err));
