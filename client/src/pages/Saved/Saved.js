@@ -39,7 +39,7 @@ class Saved extends Component {
                             <Grid.Column computer={4} mobile={16} tablet={8} key={book.bookId}>
                                 <Card className="centered" style={{height: 450}}>
                                     <Image size='small' src={book.img} style={{height: 232}} />
-                                    <Card.Content>
+                                    <Card.Content style={{height: 131, overflowY: "auto"}}>
                                         <Card.Header>{book.title}</Card.Header>
                                         <Card.Meta>Authors: {book.authors}</Card.Meta>
                                         <Card.Description>{book.subtitle}</Card.Description>
