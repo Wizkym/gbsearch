@@ -92,7 +92,7 @@ class Search extends Component {
                             <p>This book is saved already!</p>
                         </Modal.Content>
                         <Modal.Actions>
-                            <Button>Close</Button>
+                            <Button onClick={this.close}>Close</Button>
                         </Modal.Actions>
                     </Modal>
                 </Container>
