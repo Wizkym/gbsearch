@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Input, Button } from "semantic-ui-react";
+import { Container, Input, Button, Modal } from "semantic-ui-react";
 import Nav from "../../components/Nav";
 import API from "../../utils/API";
 import SearchResults from "../../components/searchResults";
@@ -8,8 +8,12 @@ class Search extends Component {
     state = {
         query: "",
         results: [],
-        saved: []
+        saved: [],
+        open: false
     };
+
+    show = () => this.setState({ open: true });
+    close = () => this.setState({ open: false });
 
     componentDidMount() {
        this.loadDefaultBooks();
@@ -65,7 +69,9 @@ class Search extends Component {
             API.saveBook(data)
                 .then(res => this.getSavedBooks)
                 .catch(err => console.log(err));
-            }
+        } else {
+            this.show();
+        }
     };
 
     render() {
@@ -80,6 +86,15 @@ class Search extends Component {
                         results={this.state.results}
                         handleBookSave={this.handleBookSave}
                     />
+                    <Modal size='small' open={this.state.open} onClose={this.close}>
+                        <Modal.Header>Duplicate Alert</Modal.Header>
+                        <Modal.Content>
+                            <p>This book is saved already!</p>
+                        </Modal.Content>
+                        <Modal.Actions>
+                            <Button>Close</Button>
+                        </Modal.Actions>
+                    </Modal>
                 </Container>
             </div>
         )
