@@ -9,11 +9,14 @@ class Search extends Component {
         query: "",
         results: [],
         saved: [],
-        open: false
+        open: false,
+        bookSave: false
     };
 
     show = () => this.setState({ open: true });
     close = () => this.setState({ open: false });
+    savedShow = () => this.setState({ bookSave: true });
+    savedClose = () => this.setState({ bookSave: false });
 
     componentDidMount() {
        this.loadDefaultBooks();
@@ -24,7 +27,6 @@ class Search extends Component {
     loadDefaultBooks = () => {
         API.getDefaultBooks()
             .then(res => {
-                console.log(res.data.items);
                 this.setState({ results: res.data.items });
             })
             .catch(err => console.log(err));
@@ -67,7 +69,10 @@ class Search extends Component {
         // Only save the book if it is not in our database
         if (!this.state.saved.includes(data.bookId)){
             API.saveBook(data)
-                .then(res => this.getSavedBooks)
+                .then(res => {
+                    this.getSavedBooks();
+                    this.savedShow();
+                })
                 .catch(err => console.log(err));
         } else {
             this.show();
@@ -93,6 +98,15 @@ class Search extends Component {
                         </Modal.Content>
                         <Modal.Actions>
                             <Button onClick={this.close}>Close</Button>
+                        </Modal.Actions>
+                    </Modal>
+                    <Modal size='small' open={this.state.bookSave} onClose={this.savedClose}>
+                        <Modal.Header>SUCCESS!</Modal.Header>
+                        <Modal.Content>
+                            <p style={{color: "green"}}>Book saved successfully!</p>
+                        </Modal.Content>
+                        <Modal.Actions>
+                            <Button onClick={this.savedClose}>Close</Button>
                         </Modal.Actions>
                     </Modal>
                 </Container>
